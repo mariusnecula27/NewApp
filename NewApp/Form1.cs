@@ -31,5 +31,10 @@ namespace NewApp
         {
             Console.WriteLine("CEva nou");
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Ceva si mai nou");
+        }
     }
 }
