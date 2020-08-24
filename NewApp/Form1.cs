@@ -36,5 +36,10 @@ namespace NewApp
         {
             Console.WriteLine("Ceva si mai nou");
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Ceva si si mai nou");
+        }
     }
 }
