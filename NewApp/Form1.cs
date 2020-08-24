@@ -21,5 +21,10 @@ namespace NewApp
         {
             Console.WriteLine("");
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Dsadaslkmdsa");
+        }
     }
 }
