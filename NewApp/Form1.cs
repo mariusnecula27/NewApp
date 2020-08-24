@@ -26,5 +26,10 @@ namespace NewApp
         {
             Console.WriteLine("Dsadaslkmdsa");
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("CEva nou");
+        }
     }
 }
