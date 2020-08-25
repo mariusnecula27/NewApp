@@ -141,6 +141,7 @@
             this.checkBox1.TabIndex = 4;
             this.checkBox1.Text = "xls";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // checkBox2
             // 
@@ -171,6 +172,7 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Excel -> XML";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // radioButton2
             // 
@@ -182,6 +184,7 @@
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "XML ->Excel";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // button2
             // 
@@ -191,6 +194,7 @@
             this.button2.TabIndex = 9;
             this.button2.Text = "Generate";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label4
             // 

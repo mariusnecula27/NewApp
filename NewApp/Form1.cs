@@ -48,5 +48,42 @@ namespace NewApp
         {
             
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
+           
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if(radioButton1.Checked )
+            {
+                radioButton1_ExcelToXML();
+            }
+            if (radioButton2.Checked)
+            {
+                radioButton2_XMLToExcel();
+            }
+        
+        }
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void radioButton1_ExcelToXML()
+        {
+            MessageBox.Show("Print 1 Excel to XML");
+        }
+        private void radioButton2_XMLToExcel()
+        {
+            MessageBox.Show("Print 1 XML TO EXCEL");
+        }
     }
 }
