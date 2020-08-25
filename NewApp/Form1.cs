@@ -17,29 +17,19 @@ namespace NewApp
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void tabPage2_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("");
+
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void tabPage1_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Dsadaslkmdsa");
+
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("CEva nou");
-        }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Ceva si mai nou");
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Ceva si si mai nou");
         }
     }
 }
