@@ -40,7 +40,7 @@ namespace NewApp
             {
                 string strfilename = openFileDialog.FileName;
 
-                textBox1.Text = strfilename;
+                textBox1.Text = strfilename ;
             }
         }
 
