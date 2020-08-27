@@ -11,6 +11,13 @@ using System.Xml;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Excel;
+using System.Reflection;
+using Microsoft.Office.Interop;
+using System.Data.OleDb;
+using DataTable = System.Data.DataTable;
+using System.Xml.Serialization;
+using System.Xml.Schema;
+
 
 namespace NewApp
 {
@@ -83,9 +90,96 @@ namespace NewApp
 
         private void radioButton1_ExcelToXML()
         {
-            MessageBox.Show("Print 1 Excel to XML");
+            string pathFile = textBox1.Text;
+            var xlApp = new Excel.Application();
+            //xlApp.Visible = true;
+
+
+            Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(pathFile);
+            Excel.Worksheet xlWorkSheet = xlWorkBook.Sheets[1];
+            Excel.Range xlRange = xlWorkSheet.UsedRange;
+
+
+            xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+
+            Excel.Worksheet sheetOne = xlWorkBook.Sheets["Signals"];
+            Excel.Worksheet sheetTwo = xlWorkBook.Sheets["ECU Instances"];
+
+
+
+            string a11 = sheetOne.Cells[1, 1].Value.ToString();
+            Console.WriteLine(a11);
+
+            Excel.Range last = sheetOne.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
+            Excel.Range range = sheetOne.get_Range("A1", last);
+
+            int lastUsedRow = last.Row;
+            int lastUsedColumn = last.Column;
+
+
+
+            Excel.Range lastsheetTwo = sheetTwo.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
+            Excel.Range rangeSheetTwo = sheetTwo.get_Range("A1", lastsheetTwo);
+
+
+            xmlFile newXmlFile = new xmlFile();
+
+
+            XmlElement shortName = newXmlFile.doc.CreateElement(string.Empty, "SHORT-NAME", string.Empty);
+            XmlText text1 = newXmlFile.doc.CreateTextNode("ISIGNALS");
+            shortName.AppendChild(text1);
+            newXmlFile.nodePrincipal.AppendChild(shortName);
+
+            XmlElement elements = newXmlFile.doc.CreateElement(string.Empty, "ELEMENTS", string.Empty);
+            newXmlFile.nodePrincipal.AppendChild(elements);
+
+
+            for (int i = 2; i <= lastUsedRow; i++)
+            {
+                List<string> lineElement = new List<string>();
+
+                for (int j = 1; j <= lastUsedColumn; j++)
+                {
+                    lineElement.Add(sheetOne.Cells[i, j].Value.ToString());
+
+                }
+                newXmlFile.WriteSignalNode(lineElement, elements, newXmlFile.doc);
+            }
+
+
+
+            int lastUsedRowSheetTwo = lastsheetTwo.Row;
+            int lastUsedColumnSheetTwo = lastsheetTwo.Column;
+
+
+
+            XmlElement shortNameECU = newXmlFile.doc.CreateElement(string.Empty, "SHORT-NAME", string.Empty);
+            XmlText text2 = newXmlFile.doc.CreateTextNode("ECUINSTANCES");
+            shortNameECU.AppendChild(text2);
+            newXmlFile.nodePrincipal2.AppendChild(shortNameECU);
+
+            XmlElement elementsEcu = newXmlFile.doc.CreateElement(string.Empty, "ELEMENTS", string.Empty);
+            newXmlFile.nodePrincipal2.AppendChild(elementsEcu);
+
+            for (int i = 2; i <= lastUsedRowSheetTwo; i++)
+            {
+                List<string> lineElementECU = new List<string>();
+
+                for (int j = 1; j <= lastUsedColumnSheetTwo; j++)
+                {
+                    lineElementECU.Add(sheetTwo.Cells[i, j].Value.ToString());
+
+                }
+                newXmlFile.WriteECU(lineElementECU, elementsEcu, newXmlFile.doc);
+            }
+
+
+            newXmlFile.doc.Save("D:\\newFile.xml");
+            textBox2.Text = "Fisierul XML a fost creat cu succes!";
         }
-        private void radioButton2_XMLToExcel()
+
+    
+    private void radioButton2_XMLToExcel()
         {
             XmlDataDocument xmldoc = new XmlDataDocument();
             XmlNodeList xmlnodeSignal;
