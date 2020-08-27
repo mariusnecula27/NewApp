@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using System.IO;
+using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Interop.Excel;
 
 namespace NewApp
 {
@@ -83,7 +87,38 @@ namespace NewApp
         }
         private void radioButton2_XMLToExcel()
         {
-            MessageBox.Show("Print 1 XML TO EXCEL");
+            XmlDataDocument xmldoc = new XmlDataDocument();
+            XmlNodeList xmlnodeSignal;
+            XmlNodeList xmlnodeEcuInstance;
+        
+            string str = null;
+            FileStream fs = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read);
+            xmldoc.Load(fs);
+            xmlnodeSignal = xmldoc.GetElementsByTagName("I-SIGNAL");
+            xmlnodeEcuInstance = xmldoc.GetElementsByTagName("ECU-INSTANCE");
+
+            ExcelFile newFile = new ExcelFile();
+
+            for (int i = 0; i < xmlnodeSignal.Count; i++)
+                {
+                str = xmlnodeSignal[i].ChildNodes.Item(0).InnerText.Trim() + " " + xmlnodeSignal[i].ChildNodes.Item(1).InnerText.Trim() + " " + xmlnodeSignal[i].ChildNodes.Item(2).InnerText.Trim() + " " + xmlnodeSignal[i].ChildNodes.Item(3).InnerText.Trim() + " " + xmlnodeSignal[i].ChildNodes.Item(4).InnerText.Trim();
+                newFile.writeSignalSheet(i, str, newFile.xlWorkSheetSignal);
+                }
+
+            for (int i = 0; i < xmlnodeEcuInstance.Count; i++)
+            {
+                str = xmlnodeEcuInstance[i].ChildNodes.Item(0).InnerText.Trim() + " " + xmlnodeEcuInstance[i].ChildNodes.Item(2).InnerText.Trim() + " " + xmlnodeEcuInstance[i].ChildNodes.Item(3).InnerText.Trim() + " " + xmlnodeEcuInstance[i].ChildNodes.Item(4).InnerText.Trim() + " " + xmlnodeEcuInstance[i].ChildNodes.Item(5).InnerText.Trim() + " " + xmlnodeEcuInstance[i].ChildNodes.Item(8).InnerText.Trim() + " " + xmlnodeEcuInstance[i].ChildNodes.Item(9).InnerText.Trim();
+                newFile.writeEcuInstanceSheet(i, str, newFile.xlWorkSheetEcuInstance);
+            }
+       
+            string pathXlsx = "d:\\csharppp-Excel.xlsx";
+            string pathXls = "d:\\csharppp-Excel.xls";
+            newFile.saveExcelFile(pathXls, pathXlsx, newFile.xlWorkBook, checkBox1, checkBox2, newFile.misValue, textBox2);
+
+            //Marshal.ReleaseComObject(xlWorkSheet);
+            //Marshal.ReleaseComObject(xlWorkBook);
+            //Marshal.ReleaseComObject(xlApp);
+
         }
     }
 }
