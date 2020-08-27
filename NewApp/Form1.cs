@@ -17,7 +17,8 @@ using System.Data.OleDb;
 using DataTable = System.Data.DataTable;
 using System.Xml.Serialization;
 using System.Xml.Schema;
-
+using System.Diagnostics;
+using System.Windows.Forms.VisualStyles;
 
 namespace NewApp
 {
@@ -105,8 +106,6 @@ namespace NewApp
             Excel.Worksheet sheetOne = xlWorkBook.Sheets["Signals"];
             Excel.Worksheet sheetTwo = xlWorkBook.Sheets["ECU Instances"];
 
-
-
             string a11 = sheetOne.Cells[1, 1].Value.ToString();
             Console.WriteLine(a11);
 
@@ -178,8 +177,7 @@ namespace NewApp
             textBox2.Text = "Fisierul XML a fost creat cu succes!";
         }
 
-    
-    private void radioButton2_XMLToExcel()
+        private void radioButton2_XMLToExcel()
         {
             XmlDataDocument xmldoc = new XmlDataDocument();
             XmlNodeList xmlnodeSignal;
@@ -188,6 +186,11 @@ namespace NewApp
             string str = null;
             FileStream fs = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read);
             xmldoc.Load(fs);
+
+            DisplayInfo newDisplayInfo = new DisplayInfo();
+
+            newDisplayInfo.comboBoxAllWriter("Fisierul a fost deschis cu succes!", textBox2, comboBox1, true);
+
             xmlnodeSignal = xmldoc.GetElementsByTagName("I-SIGNAL");
             xmlnodeEcuInstance = xmldoc.GetElementsByTagName("ECU-INSTANCE");
 
@@ -205,14 +208,62 @@ namespace NewApp
                 newFile.writeEcuInstanceSheet(i, str, newFile.xlWorkSheetEcuInstance);
             }
        
-            string pathXlsx = "d:\\csharppp-Excel.xlsx";
-            string pathXls = "d:\\csharppp-Excel.xls";
+            string pathXlsx = "d:\\csharpppp-Excel.xlsx";
+            string pathXls = "d:\\csharpppp-Excel.xls";
             newFile.saveExcelFile(pathXls, pathXlsx, newFile.xlWorkBook, checkBox1, checkBox2, newFile.misValue, textBox2);
+
+
+            newDisplayInfo.comboBoxAllWriter("Fisierul a fost creat cu succes!", textBox2, comboBox1, false);
+            newDisplayInfo.comboBoxAllWriter("Fisierul a fost creasdaasdasdasdasdasdasdasdat cu succes!", textBox2, comboBox1, true);
 
             //Marshal.ReleaseComObject(xlWorkSheet);
             //Marshal.ReleaseComObject(xlWorkBook);
             //Marshal.ReleaseComObject(xlApp);
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if(radioButton1.Checked is true)
+            {
+                string fineName = "D:\\newFile.xml";
+                System.Diagnostics.Process.Start("notepad.exe", fineName);
+
+            }
+            else if(radioButton2.Checked is true)
+            {
+                string pathXlsx = "d:\\csharppp-Excel.xlsx";
+                string pathXls = "d:\\csharppp-Excel.xls";
+
+                var xlApp = new Excel.Application();
+                xlApp.Visible = true;
+                var xlApp1 = new Excel.Application();
+                xlApp1.Visible = true;
+
+                if (checkBox1.Checked is true && checkBox2.Checked is true)
+                {
+                    Excel.Workbook xlWorkBook  = xlApp.Workbooks.Open(pathXlsx);
+                    Excel.Workbook xlWorkBook1 = xlApp1.Workbooks.Open(pathXls);
+                }
+                else if(checkBox1.Checked is true && checkBox2.Checked is false)
+                {
+                    xlApp.Visible = false;
+                    Excel.Workbook xlWorkBook1 = xlApp1.Workbooks.Open(pathXls);
+                }
+                else if (checkBox1.Checked is false && checkBox2.Checked is true)
+                {
+                    xlApp1.Visible = false;
+                    Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(pathXlsx);
+                }
+                else if (checkBox1.Checked is false && checkBox2.Checked is false)
+                {
+                    xlApp.Visible = false;
+                    xlApp1.Visible = false;
+                    DisplayInfo newDisplayInfo = new DisplayInfo();
+                    newDisplayInfo.comboBoxAllWriter("Nu exista fisiere de deschis!", textBox2, comboBox1, true);
+                }
+
+            }
         }
     }
 }
